@@ -1,6 +1,4 @@
 #include "monty.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void push(stack_t **stack, int value)
 {
@@ -36,11 +34,16 @@ void pall(stack_t **stack)
 
 void free_stack(stack_t **stack)
 {
-    while (*stack != NULL)
+    stack_t *current = *stack;
+    stack_t *temp;
+
+    while (current != NULL)
     {
-        stack_t *temp = *stack;
-        *stack = (*stack)->next;
+        temp = current;
+        current = current->next;
         free(temp);
     }
+
+    *stack = NULL;
 }
 
