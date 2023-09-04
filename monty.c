@@ -89,6 +89,30 @@ void pop(stack_t **stack, unsigned int line_number)
     free(temp);
 }
 
+/**
+ * swap - Swaps the top two elements of the stack.
+ * @stack: Pointer to the stack.
+ * @line_number: Current line number in the Monty bytecode file.
+ */
+void swap(stack_t **stack, unsigned int line_number)
+{
+    if (!stack || !*stack || !(*stack)->next)
+    {
+        fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    stack_t *top = *stack;
+    stack_t *second = top->next;
+
+    top->next = second->next;
+    top->prev = second;
+    second->prev = NULL;
+    second->next = top;
+
+    *stack = second;
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -165,6 +189,10 @@ int main(int argc, char *argv[])
 	else if (strcmp(opcode, "pop") == 0)
     {
         pop(&stack, line_number);
+    }
+	else if (strcmp(opcode, "swap") == 0)
+    {
+        swap(&stack, line_number);
     }
         else
         {
