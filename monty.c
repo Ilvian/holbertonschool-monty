@@ -53,6 +53,22 @@ void pall(stack_t **stack, unsigned int line_number)
     }
 }
 
+/**
+ * pint - Prints the value at the top of the stack, followed by a new line.
+ * @stack: Pointer to the stack.
+ * @line_number: Current line number in the Monty bytecode file.
+ */
+void pint(stack_t **stack, unsigned int line_number)
+{
+    if (!stack || !*stack)
+    {
+        fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("%d\n", (*stack)->n);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -122,6 +138,10 @@ int main(int argc, char *argv[])
         {
             pall(&stack, line_number);
         }
+        else if (strcmp(opcode, "pint") == 0)
+        {
+            pint(&stack, line_number);
+        }
         else
         {
             fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
@@ -149,4 +169,3 @@ int main(int argc, char *argv[])
 
     return (EXIT_SUCCESS);
 }
-
