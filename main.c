@@ -5,26 +5,60 @@
 
 stack_t *stack = NULL;
 
-int main()
+int main(int argc, char *argv[])
 {
-    char *opcode = "push";
-    char *argument = "10";
-
-    if (strcmp(opcode, "push") == 0)
+    if (argc != 2)
     {
-        if (!is_integer(argument))
+        fprintf(stderr, "Usage: %s <file.c>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    FILE *file = fopen(argv[1], "r");
+    if (file == NULL)
+    {
+        fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+        exit(EXIT_FAILURE);
+    }
+
+    char *line = NULL;
+    size_t len = 0;
+    unsigned int line_number = 0;
+
+    while (getline(&line, &len, file) != -1)
+    {
+        line_number++;
+        char *opcode = strtok(line, " \t\n");
+        char *argument = strtok(NULL, " \t\n");
+
+        if (opcode == NULL)
+            continue;
+
+        if (strcmp(opcode, "push") == 0)
         {
-            fprintf(stderr, "L<number>: usage: push integer\n");
-            exit(EXIT_FAILURE);
+            if (argument == NULL || !is_integer(argument))
+            {
+                fprintf(stderr, "L%d: usage: push integer\n", line_number);
+                free(line);
+                fclose(file);
+                exit(EXIT_FAILURE);
+            }
+
+            int value = atoi(argument);
+            push(&stack, value);
+        }
+        else if (strcmp(opcode, "pall") == 0)
+        {
+            pall(&stack);
         }
 
-        int value = atoi(argument);
-        push(&stack, value);
+        free(line);
+        line = NULL;
+        len = 0;
     }
-    else if (strcmp(opcode, "pall") == 0)
-    {
-        pall(&stack);
-    }
+
+    fclose(file);
+    if (line)
+        free(line);
 
     return 0;
 }
