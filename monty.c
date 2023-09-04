@@ -113,6 +113,23 @@ void swap(stack_t **stack, unsigned int line_number)
     *stack = second;
 }
 
+/**
+ * add - Adds the top two elements of the stack.
+ * @stack: Pointer to the stack.
+ * @line_number: Current line number in the Monty bytecode file.
+ */
+void add(stack_t **stack, unsigned int line_number)
+{
+    if (!stack || !*stack || !(*stack)->next)
+    {
+        fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    (*stack)->next->n += (*stack)->n;
+    pop(stack, line_number);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -193,6 +210,10 @@ int main(int argc, char *argv[])
 	else if (strcmp(opcode, "swap") == 0)
     {
         swap(&stack, line_number);
+    }
+	else if (strcmp(opcode, "add") == 0)
+    {
+        add(&stack, line_number);
     }
         else
         {
