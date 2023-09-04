@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
         {
             if (argument == NULL || !is_integer(argument))
             {
-                fprintf(stderr, "L%d: usage: push integer\n", line_number);
+                fprintf(stderr, "L%d: USAGE: push integer\n", line_number);
                 free(line);
                 fclose(file);
                 exit(EXIT_FAILURE);
