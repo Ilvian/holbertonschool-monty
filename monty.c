@@ -45,14 +45,14 @@ int main(int argc, char *argv[]) {
             int value = atoi(line + 5);
             if (value == 0 && line[5] != '0') {
                 fprintf(stderr, "L%d: usage: push integer\n", line_number);
-                return EXIT_FAILURE;
+                continue;
             }
             push(value);
         } else if (strcmp(line, "pall") == 0) {
             pall();
         } else {
             fprintf(stderr, "L%d: Unknown opcode: %s\n", line_number, line);
-            return EXIT_FAILURE;
+            continue;
         }
     }
 
