@@ -1,4 +1,7 @@
 #include "monty.h"
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
 
 /**
  * push - Pushes an element onto the stack.
@@ -133,4 +136,3 @@ int main(int argc, char *argv[])
 
     return (EXIT_SUCCESS);
 }
-
