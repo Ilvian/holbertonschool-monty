@@ -27,17 +27,19 @@ int main(int argc, char *argv[])
     {
         line_number++;
 
+        opcode[strcspn(opcode, "\n")] = '\0';
+
         if (sscanf(opcode, "push %d", &value) == 1)
         {
             push(&stack, value);
         }
-        else if (strcmp(opcode, "pall\n") == 0)
+        else if (strcmp(opcode, "pall") == 0)
         {
             pall(&stack);
         }
         else
         {
-            fprintf(stderr, "L%d: unknown instruction %s", line_number, opcode);
+            fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
             exit(EXIT_FAILURE);
         }
     }
