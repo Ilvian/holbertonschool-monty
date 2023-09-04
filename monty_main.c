@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char opcode[100];
+    char opcode[100]; 
     int value;
     stack_t *stack = NULL;
     int line_number = 0;
@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
             if (sscanf(opcode + 4, " %d", &value) == 1)
             {
                 push(&stack, value);
-                valid_command = 1;
+                valid_command = 1; 
             }
             else
             {
                 fprintf(stderr, "L%d: usage: push integer\n", line_number);
                 fclose(file);
-                free_stack(&stack);
+                free_stack(&stack); 
                 exit(EXIT_FAILURE);
             }
         }
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
             {
                 fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
                 fclose(file);
-                free_stack(&stack);
+                free_stack(&stack); 
                 exit(EXIT_FAILURE);
             }
             pall(&stack);
