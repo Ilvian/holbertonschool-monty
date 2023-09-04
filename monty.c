@@ -53,7 +53,6 @@ void pall(stack_t **stack, unsigned int line_number)
         current = current->next;
     }
 }
-
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -122,6 +121,19 @@ int main(int argc, char *argv[])
         {
             pall(&stack, line_number);
         }
+        else
+        {
+            fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+            fclose(file);
+            free(line);
+            while (stack)
+            {
+                stack_t *temp = stack;
+                stack = stack->next;
+                free(temp);
+            }
+            return (EXIT_FAILURE);
+        }
     }
 
     fclose(file);
@@ -136,3 +148,4 @@ int main(int argc, char *argv[])
 
     return (EXIT_SUCCESS);
 }
+
