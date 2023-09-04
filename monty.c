@@ -1,4 +1,5 @@
 #include "monty.h"
+#include <string.h>
 
 /**
  * main - Monty ByteCode interpreter

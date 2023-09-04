@@ -8,7 +8,6 @@
 void push(stack_t **stack, unsigned int line_number)
 {
     char *arg = strtok(NULL, " \t\n");
-    int n;
 
     if (!arg || !is_number(arg))
     {
@@ -16,7 +15,7 @@ void push(stack_t **stack, unsigned int line_number)
         exit(EXIT_FAILURE);
     }
 
-    n = atoi(arg);
+    int n = atoi(arg);
     if (!push_stack(stack, n))
     {
         fprintf(stderr, "Error: malloc failed\n");
