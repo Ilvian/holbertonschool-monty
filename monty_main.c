@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
             else
             {
                 fprintf(stderr, "L%d: usage: push integer\n", line_number);
+                fclose(file);
+                free_stack(&stack);
                 exit(EXIT_FAILURE);
             }
         }
@@ -48,6 +50,8 @@ int main(int argc, char *argv[])
             if (!valid_command)
             {
                 fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+                fclose(file);
+                free_stack(&stack);
                 exit(EXIT_FAILURE);
             }
             pall(&stack);
@@ -55,6 +59,8 @@ int main(int argc, char *argv[])
         else
         {
             fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+            fclose(file);
+            free_stack(&stack);
             exit(EXIT_FAILURE);
         }
 
