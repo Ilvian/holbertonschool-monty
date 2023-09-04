@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     int value;
     stack_t *stack = NULL;
     int line_number = 0;
+    int valid_command;
 
     while (fgets(opcode, sizeof(opcode), file) != NULL)
     {
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
             if (sscanf(opcode + 4, " %d", &value) == 1)
             {
                 push(&stack, value);
+                valid_command = 1;
             }
             else
             {
@@ -43,6 +45,11 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(opcode, "pall") == 0)
         {
+            if (!valid_command)
+            {
+                fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+                exit(EXIT_FAILURE);
+            }
             pall(&stack);
         }
         else
@@ -50,6 +57,8 @@ int main(int argc, char *argv[])
             fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
             exit(EXIT_FAILURE);
         }
+
+        valid_command = 0;
     }
 
     free_stack(&stack);
