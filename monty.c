@@ -1,62 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "monty.h"
 
-#define STACK_SIZE 100
+stack_t *stack = NULL;
 
-int stack[STACK_SIZE];
-int top = -1;
-
-void push(int value) {
-    if (top == STACK_SIZE - 1) {
-        fprintf(stderr, "Error: Stack overflow\n");
+void push(int value)
+{
+    stack_t *new_node = malloc(sizeof(stack_t));
+    if (new_node == NULL)
+    {
+        fprintf(stderr, "Error: malloc failed\n");
         exit(EXIT_FAILURE);
     }
-    top++;
-    stack[top] = value;
+    
+    new_node->n = value;
+    new_node->prev = NULL;
+    new_node->next = stack;
+    
+    if (stack != NULL)
+        stack->prev = new_node;
+    
+    stack = new_node;
 }
 
-void pall() {
-    for (int i = top; i >= 0; i--) {
-        printf("%d\n", stack[i]);
+void pall(void)
+{
+    stack_t *current = stack;
+    while (current != NULL)
+    {
+        printf("%d\n", current->n);
+        current = current->next;
     }
 }
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
-        return EXIT_FAILURE;
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        fprintf(stderr, "USAGE: monty file\n");
+        return (EXIT_FAILURE);
     }
-
+    
     FILE *file = fopen(argv[1], "r");
-    if (file == NULL) {
-        perror("Error opening file");
-        return EXIT_FAILURE;
+    if (file == NULL)
+    {
+        fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+        return (EXIT_FAILURE);
     }
-
-    char line[256];
-    int line_number = 0;
-
-    while (fgets(line, sizeof(line), file)) {
-        line_number++;
-        line[strcspn(line, "\n")] = '\0';
-
-        if (strncmp(line, "push", 4) == 0) {
-            int value = atoi(line + 5);
-            if (value == 0 && line[5] != '0') {
-                fprintf(stderr, "L%d: usage: push integer\n", line_number);
-                continue;
-            }
-            push(value);
-        } else if (strcmp(line, "pall") == 0) {
-            pall();
-        } else {
-            fprintf(stderr, "L%d: Unknown opcode: %s\n", line_number, line);
-            continue;
-        }
+    
+    char buffer[1024];
+    while (fgets(buffer, sizeof(buffer), file))
+    {
     }
-
+    
     fclose(file);
-    return EXIT_SUCCESS;
+    return (EXIT_SUCCESS);
 }
 
