@@ -1,8 +1,7 @@
-#include "monty.h"
-#include <stdlib.h>
-#include <stddef.h>
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
+#include "monty.h"
 /**
  * push - Pushes an element onto the stack.
  * @stack: Pointer to the stack.
@@ -53,6 +52,7 @@ void pall(stack_t **stack, unsigned int line_number)
         current = current->next;
     }
 }
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -100,8 +100,9 @@ int main(int argc, char *argv[])
                 return (EXIT_FAILURE);
             }
 
-            value = atoi(arg);
-            if (value == 0 && *arg != '0' && *arg != '-')
+            char *endptr;
+            value = strtol(arg, &endptr, 10);
+            if (*endptr != '\0')
             {
                 fprintf(stderr, "L%d: usage: push integer\n", line_number);
                 fclose(file);
