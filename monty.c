@@ -130,6 +130,18 @@ void add(stack_t **stack, unsigned int line_number)
     pop(stack, line_number);
 }
 
+/**
+ * nop - Does nothing.
+ * @stack: Pointer to the stack.
+ * @line_number: Current line number in the Monty bytecode file.
+ */
+void nop(stack_t **stack, unsigned int line_number)
+{
+    (void)stack;
+    (void)line_number;
+    // Do nothing
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -214,6 +226,10 @@ int main(int argc, char *argv[])
 	else if (strcmp(opcode, "add") == 0)
     {
         add(&stack, line_number);
+    }
+	 else if (strcmp(opcode, "nop") == 0)
+    {
+        nop(&stack, line_number);
     }
         else
         {
