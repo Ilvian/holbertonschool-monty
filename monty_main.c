@@ -29,9 +29,17 @@ int main(int argc, char *argv[])
 
         opcode[strcspn(opcode, "\n")] = '\0';
 
-        if (sscanf(opcode, "push %d", &value) == 1)
+        if (strncmp(opcode, "push", 4) == 0)
         {
-            push(&stack, value);
+            if (sscanf(opcode + 4, " %d", &value) == 1)
+            {
+                push(&stack, value);
+            }
+            else
+            {
+                fprintf(stderr, "L%d: usage: push integer\n", line_number);
+                exit(EXIT_FAILURE);
+            }
         }
         else if (strcmp(opcode, "pall") == 0)
         {
