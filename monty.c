@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
             }
 
             value = atoi(arg);
-            if (value == 0 && *arg != '0')
+            if (value == 0 && *arg != '0' && *arg != '-')
             {
                 fprintf(stderr, "L%d: usage: push integer\n", line_number);
                 fclose(file);
