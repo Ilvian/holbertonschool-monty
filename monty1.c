@@ -24,10 +24,6 @@ void add(stack_t **stack, unsigned int line_number)
         (*stack)->next->n += (*stack)->n;
         pop(stack, line_number);
 }
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "monty.h"
 void execute_instruction(stack_t **stack, char *opcode, char *arg, unsigned int line_number)
 {
     int value;
@@ -70,10 +66,6 @@ void execute_instruction(stack_t **stack, char *opcode, char *arg, unsigned int 
     else if (strcmp(opcode, "nop") == 0)
     {
         nop(stack, line_number);
-    }
-    else if (strcmp(opcode, "sub") == 0)
-    {
-        sub(stack, line_number);
     }
     else
     {
