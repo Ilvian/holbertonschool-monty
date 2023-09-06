@@ -83,18 +83,18 @@ void pop(stack_t **stack, unsigned int line_number)
 */
 void swap(stack_t **stack, unsigned int line_number)
 {
-    if (!stack || !*stack || !(*stack)->next)
-    {
-        fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    stack_t *top = *stack;
-    stack_t *second = top->next;
-    top->next = second->next;
-    top->prev = second;
-    second->prev = NULL;
-    second->next = top;
-    *stack = second;
+	if (!stack || !*stack || !(*stack)->next)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	stack_t *top = *stack;
+	stack_t *second = top->next;
+	top->next = second->next;
+	top->prev = second;
+	second->prev = NULL;
+	second->next = top;
+	*stack = second;
 }
 /**
 * add - Adds the top two elements of the stack.
