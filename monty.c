@@ -118,9 +118,8 @@ void add(stack_t **stack, unsigned int line_number)
 */
 void nop(stack_t **stack, unsigned int line_number)
 {
-    (void)stack;
-    (void)line_number;
-    // Do nothing
+	(void)stack;
+	(void)line_number;
 }
 int main(int argc, char *argv[])
 {
