@@ -51,4 +51,23 @@ void free_stack(stack_t **stack)
 }
 
 /* Add implementations for other opcode functions here */
+int is_valid_integer(const char *str)
+{
+    if (str == NULL || *str == '\0')
+        return 0;
 
+    int i = 0;
+
+    // Handle optional leading '-' for negative numbers
+    if (str[i] == '-')
+        i++;
+
+    // Check for non-empty string with digits only
+    for (; str[i] != '\0'; i++)
+    {
+        if (!isdigit(str[i]))
+            return 0; // Non-digit character found
+    }
+
+    return 1; // Valid integer
+}
