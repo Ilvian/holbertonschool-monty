@@ -90,3 +90,52 @@ void _pint(stack_t **stack, unsigned int line_number)
 
     printf("%d\n", (*stack)->n);
 }
+void _pop(stack_t **stack, unsigned int line_number)
+{
+    if (*stack == NULL)
+    {
+        fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    stack_t *temp = *stack;
+    *stack = (*stack)->next;
+    free(temp);
+}
+void _swap(stack_t **stack, unsigned int line_number)
+{
+    if (*stack == NULL || (*stack)->next == NULL)
+    {
+        fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    int temp = (*stack)->n;
+    (*stack)->n = (*stack)->next->n;
+    (*stack)->next->n = temp;
+}
+void _add(stack_t **stack, unsigned int line_number)
+{
+    if (*stack == NULL || (*stack)->next == NULL)
+    {
+        fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+
+    int result = (*stack)->n + (*stack)->next->n;
+    
+    // Pop the top element
+    stack_t *temp = *stack;
+    *stack = (*stack)->next;
+    free(temp);
+
+    // Update the second top element with the result
+    (*stack)->n = result;
+}
+void _nop(stack_t **stack, unsigned int line_number)
+{
+    (void)stack; // Suppress unused variable warning
+    (void)line_number; // Suppress unused variable warning
+    // This function does nothing
+}
+
