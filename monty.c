@@ -9,24 +9,24 @@ void _push(stack_t **stack, unsigned int line_number)
 {
 	char *arig = strtok(NULL, " \t\n");
 
-	if (arg)
+	if (arig)
 	{
 		int i = 0;
 
-		if (arg[0] == '-')
+		if (arig[0] == '-')
 		{
 			i = 1;
 		}
-		while (arg[i] != '\0')
+		while (arig[i] != '\0')
 		{
-			if (!isdigit(arg[i]))
+			if (!isdigit(arig[i]))
 			{
 				fprintf(stderr, "L%u: usage: push integer\n", line_number);
 				exit(EXIT_FAILURE);
 			}
 			i++;
 		}
-		int value = atoi(arg);
+		int value = atoi(arig);
 		stack_t *new_node = malloc(sizeof(stack_t));
 
 		if (!new_node)
@@ -44,6 +44,7 @@ void _push(stack_t **stack, unsigned int line_number)
 	else
 	{
 		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
 	}
 }
 /**
