@@ -1,26 +1,11 @@
 #include "monty.h"
-/**
-* nop - Does nothing.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void nop(stack_t **stack, unsigned int line_number)
+
+void (*get_op(char *token))(stack_t **stack, unsigned int line_number)
 {
-	(void)stack;
-	(void)line_number;
+    if (strcmp(token, "push") == 0)
+        return (_push);
+    else if (strcmp(token, "pall") == 0)
+        return (_pall);
+    return NULL; // Opcode not found
 }
-/**
-* add - Adds the top two elements of the stack.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void add(stack_t **stack, unsigned int line_number)
-{
-	if (!stack || !*stack || !(*stack)->next)
-	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	(*stack)->next->n += (*stack)->n;
-	pop(stack, line_number);
-}
+

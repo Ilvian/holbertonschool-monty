@@ -1,103 +1,54 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "monty.h"
-/**
-* push - Pushes an element onto the stack.
-* @stack: Pointer to the stack.
-* @value: The integer value to push onto the stack.
-*/
-void push(stack_t **stack, int value)
-{
-	stack_t *new_node;
 
-	new_node = malloc(sizeof(stack_t));
-
-	if (!new_node)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	new_node->n = value;
-	new_node->prev = NULL;
-	if (*stack)
-	{
-		new_node->next = *stack;
-		(*stack)->prev = new_node;
-	}
-	else
-	{
-		new_node->next = NULL;
-	}
-	*stack = new_node;
-}
-/**
-* pall - Prints all the values on the stack.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void pall(stack_t **stack, unsigned int line_number)
+void _push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *current = *stack;
-	(void)line_number;
-	while (current)
-	{
-		printf("%d\n", current->n);
-		current = current->next;
-	}
-}
-/**
-* pint - Prints the value at the top of the stack, followed by a new line.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void pint(stack_t **stack, unsigned int line_number)
-{
-	if (!stack || !*stack)
-	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	printf("%d\n", (*stack)->n);
-}
-/**
-* pop - Removes the top element of the stack.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void pop(stack_t **stack, unsigned int line_number)
-{
-	if (!stack || !*stack)
-	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	stack_t *temp = *stack;
-	*stack = (*stack)->next;
-	if (*stack)
-		(*stack)->prev = NULL;
-	free(temp);
-}
-/**
-* swap - Swaps the top two elements of the stack.
-* @stack: Pointer to the stack.
-* @line_number: Current line number in the Monty bytecode file.
-*/
-void swap(stack_t **stack, unsigned int line_number)
-{
-	if (!stack || !*stack || !(*stack)->next)
-	{
-		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	stack_t *top = *stack;
+    char *arg = strtok(NULL, " \t\n");
 
-	stack_t *second = top->next;
-
-	top->next = second->next;
-
-	top->prev = second;
-	second->prev = NULL;
-	second->next = top;
-	*stack = second;
+    if (arg && isdigit(arg[0]))
+    {
+        int value = atoi(arg);
+        stack_t *new_node = malloc(sizeof(stack_t));
+        if (new_node == NULL)
+        {
+            fprintf(stderr, "Error: malloc failed\n");
+            exit(EXIT_FAILURE);
+        }
+        new_node->n = value;
+        new_node->prev = NULL;
+        new_node->next = *stack;
+        if (*stack)
+            (*stack)->prev = new_node;
+        *stack = new_node;
+    }
+    else
+    {
+        fprintf(stderr, "L%u: usage: push integer\n", line_number);
+        exit(EXIT_FAILURE);
+    }
 }
+
+void _pall(stack_t **stack, unsigned int line_number)
+{
+    (void)line_number; // Unused parameter
+
+    stack_t *current = *stack;
+    while (current != NULL)
+    {
+        printf("%d\n", current->n);
+        current = current->next;
+    }
+}
+
+void free_stack(stack_t **stack)
+{
+    /* Implement this function to free the stack elements */
+    while (*stack)
+    {
+        stack_t *temp = (*stack)->next;
+        free(*stack);
+        *stack = temp;
+    }
+}
+
+/* Add implementations for other opcode functions here */
+
