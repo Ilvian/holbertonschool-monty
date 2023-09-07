@@ -36,11 +36,6 @@ int main(int argc, char *argv[])
 		if (!opcode || *opcode == '#')
 			continue;
 		arg = strtok(NULL, " \n");
-		if (!arg)
-                {
-                        fprintf(stderr, "L%d: usage: push integer\n", line_number);
-                        exit(EXIT_FAILURE);
-                }
 		x_ins(&stack, opcode, arg, line_number);
 	}
 	fclose(file);
