@@ -4,27 +4,36 @@ void _push(stack_t **stack, unsigned int line_number)
 {
     char *arg = strtok(NULL, " \t\n");
 
-    if (arg && is_valid_integer(arg))
+    if (arg)
     {
-        int value = atoi(arg);
-        stack_t *new_node = malloc(sizeof(stack_t));
-        if (new_node == NULL)
+        // Check if it's a valid integer or a negative integer
+        int is_negative = (arg[0] == '-' && isdigit(arg[1]));
+
+        if ((is_negative && is_valid_integer(arg + 1)) || (!is_negative && is_valid_integer(arg)))
         {
-            fprintf(stderr, "Error: malloc failed\n");
-            exit(EXIT_FAILURE);
+            int value = atoi(arg);
+            stack_t *new_node = malloc(sizeof(stack_t));
+            if (new_node == NULL)
+            {
+                fprintf(stderr, "Error: malloc failed\n");
+                exit(EXIT_FAILURE);
+            }
+            new_node->n = value;
+            new_node->prev = NULL;
+            new_node->next = *stack;
+            if (*stack)
+                (*stack)->prev = new_node;
+            *stack = new_node;
         }
-        new_node->n = value;
-        new_node->prev = NULL;
-        new_node->next = *stack;
-        if (*stack)
-            (*stack)->prev = new_node;
-        *stack = new_node;
+        else
+        {
+            fprintf(stderr, "L%u: usage: push integer\n", line_number);
+            return;
+        }
     }
     else
     {
         fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        // You can choose whether to exit here or just skip the invalid line.
-        // For now, I'll skip the invalid line and continue.
         return;
     }
 }
