@@ -8,7 +8,7 @@ void (*get_op(char *token))(stack_t **stack, unsigned int line_number)
         return (_pall);
     else if (strcmp(token, "pint") == 0)
         return (_pint);
-    else if (strcmp(token, "pint") == 0)
+    else if (strcmp(token, "pop") == 0)
         return (_pop);
     else if (strcmp(token, "swap") == 0)
         return (_swap);
