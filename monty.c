@@ -1,35 +1,10 @@
 #include "monty.h"
 
-#include <stdbool.h>
-
-// Function to check if a string is a valid integer (positive or negative)
-bool is_valid_integer(const char *str)
-{
-    if (str == NULL || *str == '\0')
-        return false;
-
-    int i = 0;
-
-    // Handle optional leading '-' for negative numbers
-    if (str[i] == '-')
-        i++;
-
-    // Check for non-empty string with digits only
-    for (; str[i] != '\0'; i++)
-    {
-        if (!isdigit(str[i]))
-            return false; // Non-digit character found
-    }
-
-    return true; // Valid integer
-}
-
-// _push function with improved integer validation
 void _push(stack_t **stack, unsigned int line_number)
 {
     char *arg = strtok(NULL, " \t\n");
 
-    if (arg && is_valid_integer(arg))
+    if (arg && isdigit(arg[0]))
     {
         int value = atoi(arg);
         stack_t *new_node = malloc(sizeof(stack_t));
@@ -47,7 +22,7 @@ void _push(stack_t **stack, unsigned int line_number)
     }
     else
     {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
+	    fprintf(stderr, "L%u: usage: push integer\n", line_number);
         exit(EXIT_FAILURE);
     }
 }
