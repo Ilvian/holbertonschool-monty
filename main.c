@@ -34,12 +34,17 @@ int main(int argc, char *argv[])
 			void (*opcode_func)(stack_t **, unsigned int) = get_op(token);
 
 			if (opcode_func != NULL)
+			{
 				opcode_func(&stack, line_number);
+			}
+			else
+			{
 			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, token);
 			free(line);
 			fclose(file);
 			free_stack(&stack);
 			return (EXIT_FAILURE);
+			}
 		}
 	}
 	free(line);
