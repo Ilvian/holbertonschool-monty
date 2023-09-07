@@ -12,11 +12,6 @@ void x_ins(stack_t **stack, char *opcode, char *arg, unsigned int line_number)
 
 	if (strcmp(opcode, "push") == 0)
 	{
-		if (!arg)
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
-			exit(EXIT_FAILURE);
-		}
 		char *endptr;
 
 		value = strtol(arg, &endptr, 10);
