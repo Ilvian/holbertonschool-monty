@@ -4,7 +4,7 @@ void _push(stack_t **stack, unsigned int line_number)
 {
     char *arg = strtok(NULL, " \t\n");
 
-    if (arg && isdigit(arg[0]))
+    if (arg && is_valid_integer(arg))
     {
         int value = atoi(arg);
         stack_t *new_node = malloc(sizeof(stack_t));
@@ -22,8 +22,10 @@ void _push(stack_t **stack, unsigned int line_number)
     }
     else
     {
-	    fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "L%u: usage: push integer\n", line_number);
+        // You can choose whether to exit here or just skip the invalid line.
+        // For now, I'll skip the invalid line and continue.
+        return;
     }
 }
 
