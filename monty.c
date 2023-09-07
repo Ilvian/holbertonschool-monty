@@ -2,7 +2,18 @@
 #include <stdbool.h>
 void _push(stack_t **stack, unsigned int line_number) {
     char *arg = strtok(NULL, " \t\n");
-    if (arg && (*arg == '-' || isdigit(*arg))) {
+    if (arg) {
+        int i = 0;
+        if (arg[0] == '-') {
+            i = 1;
+        }
+        while (arg[i] != '\0') {
+            if (!isdigit(arg[i])) {
+                fprintf(stderr, "L%u: usage: push integer\n", line_number);
+                exit(EXIT_FAILURE);
+            }
+            i++;
+        }
         int value = atoi(arg);
         stack_t *new_node = malloc(sizeof(stack_t));
         if (!new_node) {
