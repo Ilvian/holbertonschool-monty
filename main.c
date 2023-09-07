@@ -1,57 +1,53 @@
 #include "monty.h"
-/**
-* main - Entry point for the Monty interpreter
-* @argc: The number of command-line arguments
-* @argv: An array of strings containing the command-line arguments
-* Return: EXIT_SUCCESS if the program runs successfully
-* EXIT_FAILURE ifany errors occur during execution.
-*/
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
-        fprintf(stderr, "USAGE: monty file\n");
-        return (EXIT_FAILURE);
+        fprintf(stderr, "Usage: %s <monty_script>\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 
-    FILE *file = fopen(argv[1], "r");
-    if (file == NULL)
+    char *filename = argv[1];
+    FILE *script_file = fopen(filename, "r");
+
+    if (script_file == NULL)
     {
-        fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-        return (EXIT_FAILURE);
+        fprintf(stderr, "Error: Can't open file %s\n", filename);
+        exit(EXIT_FAILURE);
     }
 
     stack_t *stack = NULL;
     char *line = NULL;
-    size_t line_size = 0;
+    size_t len = 0;
     unsigned int line_number = 0;
 
-    void (*get_op(char *token))(stack_t **stack, unsigned int line_number); // Move this here
-
-    while (getline(&line, &line_size, file) != -1)
+    while (getline(&line, &len, script_file) != -1)
     {
         line_number++;
         char *token = strtok(line, " \t\n");
-        if (token != NULL)
+
+        if (token == NULL || token[0] == '#')
+            continue;  // Skip empty lines and comments
+
+        void (*op_func)(stack_t **, unsigned int) = get_op(token);
+
+        if (op_func == NULL)
         {
-            void (*opcode_func)(stack_t **, unsigned int) = get_op(token);
-            if (opcode_func != NULL)
-            {
-                opcode_func(&stack, line_number);
-            }
-            else
-            {
-                fprintf(stderr, "L%u: unknown instruction %s\n", line_number, token);
-                free(line);
-                fclose(file);
-                free_stack(&stack); // Implement this function to free the stack
-                return (EXIT_FAILURE);
-            }
+            fprintf(stderr, "L%u: unknown instruction %s\n", line_number, token);
+            free(line);
+            fclose(script_file);
+            free_stack(&stack);
+            exit(EXIT_FAILURE);
         }
+
+        // Call the appropriate opcode function
+        op_func(&stack, line_number);
     }
 
     free(line);
-    fclose(file);
-    free_stack(&stack); // Implement this function to free the stack
+    fclose(script_file);
+    free_stack(&stack);
     return (EXIT_SUCCESS);
 }
+
