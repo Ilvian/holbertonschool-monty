@@ -24,6 +24,13 @@ void add(stack_t **stack, unsigned int line_number)
 	(*stack)->next->n += (*stack)->n;
 	pop(stack, line_number);
 }
+/**
+* x_ins - Adds the top two elements of the stack.
+* @stack: Pointer to the stack.
+* @opcode: input
+* @arg: input
+* @line_number: Current line number in the Monty bytecode file.
+*/
 void x_ins(stack_t **stack, char *opcode, char *arg, unsigned int line_number)
 {
 	int value;
