@@ -37,8 +37,7 @@ int main(int argc, char *argv[])
 		if (op_func == NULL)
 		{
 			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, token);
-			free(line);
-			fclose(script_file);
+			free(line), fclose(script_file);
 			free_stack(&stack);
 			exit(EXIT_FAILURE);
 		}
