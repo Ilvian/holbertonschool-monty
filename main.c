@@ -4,7 +4,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: monty file\n");
+        fprintf(stderr, "USAGE: monty file\n");
         return (EXIT_FAILURE);
     }
 
