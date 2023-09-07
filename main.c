@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	stack_t *stack = NULL;
-	char *line = NULL, size_t len = 0, unsigned int line_number = 0;
+	char *line = NULL;
+	size_t len = 0;
+	unsigned int line_number = 0;
 
 	while (getline(&line, &len, script_file) != -1)
 	{
